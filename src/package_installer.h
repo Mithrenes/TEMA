@@ -21,9 +21,9 @@
 
 #define ntohl __builtin_bswap32
 
-#define PACKAGE_PARENT "ux0:customtheme/c/commom_theme"
+#define PACKAGE_PARENT "ux0:customtheme/c/common_theme"
 #define PACKAGE_DIR PACKAGE_PARENT "/theme"
-#define installdircommontheme "ux0:customtheme/c/commom_theme"
+#define installdircommontheme "ux0:customtheme/c/common_theme"
 #define HEAD_BIN PACKAGE_DIR "/sce_sys/package/head.bin"
 
 typedef struct {

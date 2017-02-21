@@ -11,7 +11,7 @@
  *
  * $Id: font.c 540 2005-07-08 19:35:10Z warren $
  */
-
+#include "font.h"
 unsigned char msx[]=
 "\x00\x00\x00\x00\x00\x00\x00\x00\x3c\x42\xa5\x81\xa5\x99\x42\x3c"
 "\x3c\x7e\xdb\xff\xff\xdb\x66\x3c\x6c\xfe\xfe\xfe\x7c\x38\x10\x00"
@@ -141,3 +141,44 @@ unsigned char msx[]=
 "\x00\x00\x00\x00\x30\x00\x00\x00\x3e\x20\x20\x20\xa0\x60\x20\x00"
 "\xa0\x50\x50\x50\x00\x00\x00\x00\x40\xa0\x20\x40\xe0\x00\x00\x00"
 "\x00\x38\x38\x38\x38\x38\x38\x00\x00\x00\x00\x00\x00\x00\x00";
+
+static int is_korean_char(const unsigned int c) {
+    unsigned short ch = c;
+    // hangul compatibility jamo block
+    if (0x3130 <= ch && ch <= 0x318f) {
+        return 1;
+    }
+    // hangul syllables block
+    if (0xac00 <= ch && ch <= 0xd7af) {
+        return 1;
+    }
+    // korean won sign
+    if (ch == 0xffe6) {
+        return 1;
+    }
+    return 0;
+}
+
+static int is_latin_char(const unsigned int c) {
+    unsigned short ch = c;
+    // basic latin block + latin-1 supplement block
+    if (ch <= 0x00ff) {
+        return 1;
+    }
+    // cyrillic block
+    if (0x0400 <= ch && ch <= 0x04ff) {
+        return 1;
+    }
+    return 0;
+}
+
+vita2d_pgf* load_system_fonts() {
+    vita2d_system_pgf_config configs[] = {
+        {SCE_FONT_LANGUAGE_KOREAN,  is_korean_char},
+        {SCE_FONT_LANGUAGE_LATIN,   is_latin_char},
+        {SCE_FONT_LANGUAGE_DEFAULT, NULL},
+    };
+
+    return vita2d_load_system_pgf(3, configs);
+}
+

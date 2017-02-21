@@ -1,11 +1,11 @@
 TITLE_ID = TEMA00001
 TARGET = TEMA
-PSVITAIP = 195.160.0.0
+PSVITAIP = 192.168.0.0
 PROJECT_TITLE := TEMA
 OBJS   = src/main.o src/font.o src/graphics.o src/init.o src/net.o \
 	src/package_installer.o src/archive.o src/file.o \
 	src/utils.o src/sha1.o minizip/unzip.o minizip/ioapi.o \
-	src/sfo.o src/vita_sqlite.o sqlite-3.6.23.1/sqlite3.o
+	src/sfo.o src/vita_sqlite.o sqlite-3.6.23.1/sqlite3.o src/appdb.o
 
 LIBS = -lSceDisplay_stub -lSceSysmodule_stub -lSceNet_stub \
 	-lSceNetCtl_stub -lSceHttp_stub -lSceAppMgr_stub -lSceAppUtil_stub \
@@ -29,7 +29,7 @@ ASFLAGS = $(CFLAGS)
 all: $(TARGET).vpk
 
 $(TARGET).vpk: eboot.bin
-	vita-mksfoex -d PARENTAL_LEVEL=1 -s APP_VER=01.20 -s TITLE_ID=$(TITLE_ID) "$(PROJECT_TITLE)" param.sfo
+	vita-mksfoex -d PARENTAL_LEVEL=1 -s APP_VER=01.40 -s TITLE_ID=$(TITLE_ID) "$(PROJECT_TITLE)" param.sfo
 	vita-pack-vpk -s param.sfo -b eboot.bin -a res/icon0.png=sce_sys/icon0.png \
 	-a res/template.xml=sce_sys/livearea/contents/template.xml \
 	-a res/startup.png=sce_sys/livearea/contents/startup.png \

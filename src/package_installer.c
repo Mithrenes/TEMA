@@ -24,6 +24,8 @@
 #include "sfo.h"
 #include "sha1.h"
 #include "../libpromoter/promoterutil.h"
+#include "font.h"
+#include <vita2d.h>
 
 #include "base_head_bin.h"
 
@@ -330,6 +332,8 @@ int installPackage(char *file) {
 }
 
 int installTheme(char *file, char *dest) {
+	vita2d_pgf* debug_font;
+		uint32_t white2 = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 	int res;
 
 	// Recursively clean up package_temp directory
@@ -339,7 +343,8 @@ int installTheme(char *file, char *dest) {
 	// Open archive
 	res = archiveOpen(file);
 	if (res < 0){
-		printf("\nTHERE WAS A PROBLEM DOWNLOADING THE THEME. Try again.\n");
+		//printf("\nTHERE WAS A PROBLEM DOWNLOADING THE THEME. Try again.\n");
+		drawText(11, "THERE WAS A PROBLEM OPENING THE ZIP FILE. THE FILE MIGHT BE CORRUPTED. TRY AGAIN.", white2);
 		return res;}
 
 	// Src path
@@ -352,7 +357,8 @@ int installTheme(char *file, char *dest) {
 	// Extract process
 	res = extractArchivePath(src_path, dest_path, NULL);//El primero es el origen, el segundo es el destino y el tercero no se
 	if (res < 0){
-		printf("\nTHERE WAS A PROBLEM INSTALLING THE THEME. Try again.\n");
+		//printf("\nTHERE WAS A PROBLEM INSTALLING THE THEME. Try again.\n");
+		drawText(11, "THERE WAS A PROBLEM INSTALLING THE THEME. CHECK IF THE INSTALLATION PATH EXISTS AND TRY AGAIN.", white2);
 		return res;}
 
 	// Close archive
@@ -360,24 +366,28 @@ int installTheme(char *file, char *dest) {
 	if (res < 0)
 		return res;
 
-
-	printf("\nDone! The theme is now installed\n");
+	drawText(11, "DONE! The theme is now installed", white2);
+	//printf("\nDone! The theme is now installed\n");
 
 	return 0;
 }
 
 int installCommonTheme(char *file, char *dest) {
+	vita2d_pgf* debug_font;
+	uint32_t white2 = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 	int res;
 
 	// Recursively clean up package_temp directory
-	printf("\nDeleting previous theme data...\n");
+	//printf("\nDeleting previous theme data...\n");
+	drawText(9, "Deleting previous theme data...", white2);
 	removePath(PACKAGE_PARENT, NULL);
 	sceIoMkdir(PACKAGE_PARENT, 0777);
 
 	// Open archive
 	res = archiveOpen(file);
 	if (res < 0){
-		printf("\nTHERE WAS A PROBLEM OPENING THE ZIP FILE. THE FILE MIGHT BE CORRUPTED. TRY AGAIN.\n");
+		//printf("\nTHERE WAS A PROBLEM OPENING THE ZIP FILE. THE FILE MIGHT BE CORRUPTED. TRY AGAIN.\n");
+		drawText(11, "THERE WAS A PROBLEM OPENING THE ZIP FILE. THE FILE MIGHT BE CORRUPTED. TRY AGAIN.", white2);
 		return res;}
 
 	// Src path
@@ -393,7 +403,9 @@ int installCommonTheme(char *file, char *dest) {
 	// Extract process
 	res = extractArchivePath(src_path, dest_path, NULL);//El primero es el origen, el segundo es el destino y el tercero no se
 	if (res < 0){
-		printf("\nTHERE WAS A PROBLEM INSTALLING THE THEME. CHECK IF THE INSTALLATION PATH EXISTS AND TRY AGAIN.\n");
+		//clearScreen();
+		//printf("\nTHERE WAS A PROBLEM INSTALLING THE THEME. CHECK IF THE INSTALLATION PATH EXISTS AND TRY AGAIN.\n");
+		drawText(11, "THERE WAS A PROBLEM INSTALLING THE THEME. CHECK IF THE INSTALLATION PATH EXISTS AND TRY AGAIN.", white2);
 		return res;}
 
 	// Close archive
@@ -402,7 +414,8 @@ int installCommonTheme(char *file, char *dest) {
 		return res;
 
 
-	printf("\nDONE! The theme is now installed\n");
+	//printf("\nDONE! The theme is now installed\n");
+	drawText(11, "DONE! The theme is now installed", white2);
 
 	return 0;
 }
