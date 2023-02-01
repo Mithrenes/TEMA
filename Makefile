@@ -22,7 +22,7 @@ LIBS = -lSceDisplay_stub -lSceSysmodule_stub -lSceNet_stub \
     -lz \
     -lm
 
-DEFINES = -DSQLITE_OS_OTHER=1 -DSQLITE_TEMP_STORE=3 -DSQLITE_THREADSAFE=0
+DEFINES = -DSQLITE_OS_OTHER=1 -DSQLITE_TEMP_STORE=3 -DSQLITE_THREADSAFE=0 -Isqlite-3.6.23.1/
 
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc

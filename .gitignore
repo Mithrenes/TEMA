@@ -46,8 +46,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# vita build results
 *.o
 *.vpk
 *.elf
 *.velf
 *.sfo
+eboot.bin
