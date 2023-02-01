@@ -8,18 +8,21 @@ OBJS   = src/main.o src/font.o src/graphics.o src/init.o src/net.o \
 	src/sfo.o src/vita_sqlite.o sqlite-3.6.23.1/sqlite3.o src/appdb.o
 
 LIBS = -lSceDisplay_stub -lSceSysmodule_stub -lSceNet_stub \
+    -lvita2d \
+    -lSceDisplay_stub \
+    -lSceCommonDialog_stub \
 	-lSceNetCtl_stub -lSceHttp_stub -lSceAppMgr_stub -lSceAppUtil_stub \
-	-lScePower_stub libpromoter/libScePromoterUtil_stub.a -lz \
-	-lSceKernel_stub \
+	-lScePower_stub -lScePromoterUtil_stub \
+	-lSceLibKernel_stub \
     -lSceGxm_stub \
     -lSceCtrl_stub \
     -lScePgf_stub \
-    -lz \
-    -lm \
-    -lvita2d \
+    -lScePvf_stub \
     -lfreetype \
+    -lz \
+    -lm
 
-DEFINES = -DSQLITE_OS_OTHER=1 -DSQLITE_TEMP_STORE=3 -DSQLITE_THREADSAFE=0
+DEFINES = -DSQLITE_OS_OTHER=1 -DSQLITE_TEMP_STORE=3 -DSQLITE_THREADSAFE=0 -Isqlite-3.6.23.1/
 
 PREFIX  = arm-vita-eabi
 CC      = $(PREFIX)-gcc
@@ -40,7 +43,7 @@ eboot.bin: $(TARGET).velf
 	vita-make-fself $< eboot.bin
 
 $(TARGET).velf: $(TARGET).elf
-	vita-elf-create $< $@ libpromoter/promoterutil.json
+	vita-elf-create $< $@
 
 $(TARGET).elf: $(OBJS)
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@

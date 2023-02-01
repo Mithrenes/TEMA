@@ -23,8 +23,8 @@
 #include "utils.h"
 #include "sfo.h"
 #include "sha1.h"
-#include "../libpromoter/promoterutil.h"
 #include "font.h"
+#include <psp2/promoterutil.h>
 #include <vita2d.h>
 
 #include "base_head_bin.h"
